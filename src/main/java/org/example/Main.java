@@ -1,71 +1,47 @@
 import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        // Aca Declaramos las variables de tipo doble, entero y boolean
-        double saldo = 50000.0;
-        boolean continuar = true;
         Scanner teclado = new Scanner(System.in);
-        int opcion;
 
-        // Damos el Mensaje de bienvenida
-        System.out.println("Bienvenido al Cajero Automático");
+        // Productos y precios
+        String[] productos = {"Agua", "Galletas", "Chocolate", "Refresco", "Papas"};
+        int[] precios = {10, 15, 20, 18, 12};
 
-        // Bucle principal del programa
-        while (continuar) {
-            // Mostramos el menú
-            System.out.println("\n MENU DEL CAJERO");
-            System.out.println("1. Consultar saldo");
-            System.out.println("2. Ingresar dinero");
-            System.out.println("3. Retirar dinero");
-            System.out.println("4. Salir");
-            System.out.print("Elige una opción: ");
+        System.out.println("Bienvenido a la maquina expendedora!");
 
-            // Leemos la opción elegida
-            try {
-                opcion = teclado.nextInt();
+        // Mostrar productos
+        System.out.println("Productos disponibles:");
+        for (int i = 0; i < productos.length; i++) {
+            System.out.println((i+1) + ". " + productos[i] + " - $" + precios[i]);
+        }
 
-                // Procesamos la opción
-                switch (opcion) {
-                    case 1: // Consultar saldo
-                        System.out.println("Tu saldo actual es: $" + saldo);
-                        break;
+        // Seleccionar producto
+        System.out.print("Seleccione un producto (1-5): ");
+        int seleccion = teclado.nextInt();
 
-                    case 2: // Ingresar dinero
-                        System.out.print("¿Cuánto dinero quieres ingresar? $");
-                        double ingreso = teclado.nextDouble();
-                        if (ingreso > 0) {
-                            saldo += ingreso;
-                            System.out.println("Has ingresado $" + ingreso);
-                            System.out.println("Tu nuevo saldo es: $" + saldo);
-                        } else {
-                            System.out.println("Cantidad no válida");
-                        }
-                        break;
+        // Validar selección
+        if (seleccion < 1 || seleccion > 5) {
+            System.out.println("Opcion no valida");
+            teclado.close();
+            return;
+        }
 
-                    case 3: // Retirar dinero
-                        System.out.print("¿Cuánto dinero quieres retirar? $");
-                        double retiro = teclado.nextDouble();
-                        if (retiro > 0 && retiro <= saldo) {
-                            saldo -= retiro;
-                            System.out.println("Has retirado $" + retiro);
-                            System.out.println("Tu nuevo saldo es: $" + saldo);
-                        } else {
-                            System.out.println("No puedes retirar esa cantidad");
-                        }
-                        break;
+        int precio = precios[seleccion-1];
+        String producto = productos[seleccion-1];
 
-                    case 4: // Opcion de Salir
-                        System.out.println("Gracias por usar el cajero. ¡Hasta pronto!");
-                        continuar = false;
-                        break;
+        // Pedir dinero
+        System.out.println("Precio de " + producto + ": $" + precio);
+        System.out.print("Ingrese dinero: $");
+        int dinero = teclado.nextInt();
 
-                    default: // Opción no válida
-                        System.out.println("Opción no válida, intenta de nuevo");
-                }
-            } catch (Exception e) {
-                System.out.println("Error: Ingresa un número válido");
-                teclado.next(); // Limpiar el buffer de entrada para evitar un bucle infinito
-            }
+        // Verificar pago
+        if (dinero >= precio) {
+            int cambio = dinero - precio;
+            System.out.println("Gracias por su compra!");
+            System.out.println("Su cambio es: $" + cambio);
+        } else {
+            System.out.println("Dinero insuficiente");
         }
 
         teclado.close();
