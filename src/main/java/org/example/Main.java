@@ -1,73 +1,47 @@
-import java.util.Scanner;
+import java.util.Random;
 public class Main {
-    public static void main(String[] args) {
-        // Aca Declaramos las variables de tipo doble, entero y boolean
-        double saldo = 50000.0;
-        boolean continuar = true;
-        Scanner teclado = new Scanner(System.in);
-        int opcion;
+    public static void main(String[] args) throws InterruptedException {
+        Random random = new Random(); // Creamos un objeto Random para generar valores aleatorios
+        int puntosJugador1 = 0;
+        int puntosJugador2 = 0;
 
-        // Damos el Mensaje de bienvenida
-        System.out.println("Bienvenido al Cajero Automático");
+        // Bucle principal que sigue hasta que uno de los jugadores alcance 2 puntos
+        while (puntosJugador1 < 2 && puntosJugador2 < 2) {
+            int eleccionJugador1 = random.nextInt(3) + 1; // Genera un número entre 1 y 3 para Jugador 1
+            int eleccionJugador2 = random.nextInt(3) + 1; // Genera un número entre 1 y 3 para Jugador 2
 
-        // Bucle principal del programa
-        while (continuar) {
-            // Mostramos el menú
-            System.out.println("\n MENU DEL CAJERO");
-            System.out.println("1. Consultar saldo");
-            System.out.println("2. Ingresar dinero");
-            System.out.println("3. Retirar dinero");
-            System.out.println("4. Salir");
-            System.out.print("Elige una opción: ");
+            // Convertimos la elección numérica en texto para mostrarla
+            String opcionJugador1 = (eleccionJugador1 == 1) ? "Piedra" : (eleccionJugador1 == 2) ? "Papel" : "Tijera";
+            String opcionJugador2 = (eleccionJugador2 == 1) ? "Piedra" : (eleccionJugador2 == 2) ? "Papel" : "Tijera";
 
-            // Leemos la opción elegida
-            try {
-                opcion = teclado.nextInt();
+            // Mostramos las elecciones de los jugadores
+            System.out.println("Jugador 1 elige: " + opcionJugador1);
+            System.out.println("Jugador 2 elige: " + opcionJugador2);
 
-                // Procesamos la opción
-                switch (opcion) {
-                    case 1: // Consultar saldo
-                        System.out.println("Tu saldo actual es: $" + saldo);
-                        break;
-
-                    case 2: // Ingresar dinero
-                        System.out.print("¿Cuánto dinero quieres ingresar? $");
-                        double ingreso = teclado.nextDouble();
-                        if (ingreso > 0) {
-                            saldo += ingreso;
-                            System.out.println("Has ingresado $" + ingreso);
-                            System.out.println("Tu nuevo saldo es: $" + saldo);
-                        } else {
-                            System.out.println("Cantidad no válida");
-                        }
-                        break;
-
-                    case 3: // Retirar dinero
-                        System.out.print("¿Cuánto dinero quieres retirar? $");
-                        double retiro = teclado.nextDouble();
-                        if (retiro > 0 && retiro <= saldo) {
-                            saldo -= retiro;
-                            System.out.println("Has retirado $" + retiro);
-                            System.out.println("Tu nuevo saldo es: $" + saldo);
-                        } else {
-                            System.out.println("No puedes retirar esa cantidad");
-                        }
-                        break;
-
-                    case 4: // Opcion de Salir
-                        System.out.println("Gracias por usar el cajero. ¡Hasta pronto!");
-                        continuar = false;
-                        break;
-
-                    default: // Opción no válida
-                        System.out.println("Opción no válida, intenta de nuevo");
-                }
-            } catch (Exception e) {
-                System.out.println("Error: Ingresa un número válido");
-                teclado.next(); // Limpiar el buffer de entrada para evitar un bucle infinito
+            // Verificamos el resultado de la ronda
+            if (eleccionJugador1 == eleccionJugador2) {
+                System.out.println("Empate!");
+            } else if ((eleccionJugador1 == 1 && eleccionJugador2 == 3) ||
+                    (eleccionJugador1 == 2 && eleccionJugador2 == 1) ||
+                    (eleccionJugador1 == 3 && eleccionJugador2 == 2)) {
+                System.out.println("Jugador 1 gana esta ronda!");
+                puntosJugador1++; // Si incrementa el puntaje de Jugador 1
+            } else {
+                System.out.println("Jugador 2 gana esta ronda!");
+                puntosJugador2++; // si incrementa el puntaje de Jugador 2
             }
+
+            // Se muestra el puntaje actual
+            System.out.println("Puntaje - Jugador 1: " + puntosJugador1 + " | Jugador 2: " + puntosJugador2);
+            System.out.println("--------------------------------");
+
         }
 
-        teclado.close();
+        // Determinamos el ganador final y  se ejecuta automaticamente
+        if (puntosJugador1 == 2) {
+            System.out.println("¡Jugador 1 es el ganador!");
+        } else {
+            System.out.println("¡Jugador 2 es el ganador!");
+        }
     }
 }
