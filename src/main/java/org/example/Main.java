@@ -1,47 +1,92 @@
-import java.util.Random;
+import java.util.Scanner;
+
 public class Main {
-    public static void main(String[] args) throws InterruptedException {
-        Random random = new Random(); // Creamos un objeto Random para generar valores aleatorios
-        int puntosJugador1 = 0;
-        int puntosJugador2 = 0;
+    public static void main(String[] args) {
+        // Declarmamos variables
+        String tipoAtacante;
+        String tipoDefensor;
+        int ataque;
+        int defensa;
+        double efectividad = 1.0;
+        double dano;
 
-        // Bucle principal que sigue hasta que uno de los jugadores alcance 2 puntos
-        while (puntosJugador1 < 2 && puntosJugador2 < 2) {
-            int eleccionJugador1 = random.nextInt(3) + 1; // Genera un número entre 1 y 3 para Jugador 1
-            int eleccionJugador2 = random.nextInt(3) + 1; // Genera un número entre 1 y 3 para Jugador 2
 
-            // Convertimos la elección numérica en texto para mostrarla
-            String opcionJugador1 = (eleccionJugador1 == 1) ? "Piedra" : (eleccionJugador1 == 2) ? "Papel" : "Tijera";
-            String opcionJugador2 = (eleccionJugador2 == 1) ? "Piedra" : (eleccionJugador2 == 2) ? "Papel" : "Tijera";
+        Scanner lector = new Scanner(System.in);
 
-            // Mostramos las elecciones de los jugadores
-            System.out.println("Jugador 1 elige: " + opcionJugador1);
-            System.out.println("Jugador 2 elige: " + opcionJugador2);
+        System.out.println("CALCULADORA DE DANO POKEMON");
+        System.out.println("--------------------------");
 
-            // Verificamos el resultado de la ronda
-            if (eleccionJugador1 == eleccionJugador2) {
-                System.out.println("Empate!");
-            } else if ((eleccionJugador1 == 1 && eleccionJugador2 == 3) ||
-                    (eleccionJugador1 == 2 && eleccionJugador2 == 1) ||
-                    (eleccionJugador1 == 3 && eleccionJugador2 == 2)) {
-                System.out.println("Jugador 1 gana esta ronda!");
-                puntosJugador1++; // Si incrementa el puntaje de Jugador 1
-            } else {
-                System.out.println("Jugador 2 gana esta ronda!");
-                puntosJugador2++; // si incrementa el puntaje de Jugador 2
+        System.out.println("Escribe el tipo del Pokemon atacante (Agua, Fuego, Planta o Electrico):");
+        tipoAtacante = lector.nextLine();
+
+        System.out.println("Escribe el tipo del Pokemon defensor (Agua, Fuego, Planta o Electrico):");
+        tipoDefensor = lector.nextLine();
+
+        System.out.println("Escribe el valor de ataque (1-100):");
+        ataque = lector.nextInt();
+
+        System.out.println("Escribe el valor de defensa (1-100):");
+        defensa = lector.nextInt();
+
+        if (tipoAtacante.equalsIgnoreCase("Agua")) {
+            if (tipoDefensor.equalsIgnoreCase("Fuego")) {
+                efectividad = 2.0;
             }
-
-            // Se muestra el puntaje actual
-            System.out.println("Puntaje - Jugador 1: " + puntosJugador1 + " | Jugador 2: " + puntosJugador2);
-            System.out.println("--------------------------------");
-
+            if (tipoDefensor.equalsIgnoreCase("Planta")) {
+                efectividad = 0.5;
+            }
+            if (tipoDefensor.equalsIgnoreCase("Agua")) {
+                efectividad = 0.5;
+            }
         }
 
-        // Determinamos el ganador final y  se ejecuta automaticamente
-        if (puntosJugador1 == 2) {
-            System.out.println("¡Jugador 1 es el ganador!");
-        } else {
-            System.out.println("¡Jugador 2 es el ganador!");
+        if (tipoAtacante.equalsIgnoreCase("Fuego")) {
+            if (tipoDefensor.equalsIgnoreCase("Planta")) {
+                efectividad = 2.0;
+            }
+            if (tipoDefensor.equalsIgnoreCase("Agua")) {
+                efectividad = 0.5;
+            }
+            if (tipoDefensor.equalsIgnoreCase("Fuego")) {
+                efectividad = 0.5;
+            }
         }
+
+        if (tipoAtacante.equalsIgnoreCase("Planta")) {
+            if (tipoDefensor.equalsIgnoreCase("Agua")) {
+                efectividad = 2.0;
+            }
+            if (tipoDefensor.equalsIgnoreCase("Fuego")) {
+                efectividad = 0.5;
+            }
+            if (tipoDefensor.equalsIgnoreCase("Planta")) {
+                efectividad = 0.5;
+            }
+        }
+
+        if (tipoAtacante.equalsIgnoreCase("Electrico")) {
+            if (tipoDefensor.equalsIgnoreCase("Agua")) {
+                efectividad = 2.0;
+            }
+            if (tipoDefensor.equalsIgnoreCase("Planta")) {
+                efectividad = 0.5;
+            }
+            if (tipoDefensor.equalsIgnoreCase("Electrico")) {
+                efectividad = 0.5;
+            }
+        }
+
+        dano = 50 * (ataque / (double)defensa) * efectividad;
+
+        System.out.println("--------------------------");
+        System.out.println("Resultado:");
+        System.out.println("Tipo atacante: " + tipoAtacante);
+        System.out.println("Tipo defensor: " + tipoDefensor);
+        System.out.println("Ataque: " + ataque);
+        System.out.println("Defensa: " + defensa);
+        System.out.println("Efectividad: " + efectividad);
+        System.out.println("Daño causado: " + (int)dano);
+
+        lector.close();
     }
 }
