@@ -10,7 +10,7 @@ public class Main {
         double efectividad = 1.0;
         double dano;
 
-
+        // El Scanner es para leer datos
         Scanner lector = new Scanner(System.in);
 
         System.out.println("CALCULADORA DE DANO POKEMON");
